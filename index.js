@@ -36,7 +36,6 @@ app.post('/deleteImages', async (req, res) => {
         const SelectImage = selectedImages.map(i => i.url.slice(9));
 
         let images = fs.readdirSync('./uploads'); // List all files in the 'uploads' folder
-        // console.log("🚀 ~ file: index.js:38 ~ app.post ~ images:", images,"length:",images.length)
 
         // Filter out selected images
         images = images.filter(image => !SelectImage.includes(image));
@@ -70,9 +69,6 @@ app.post('/items', async (req, res) => {
 
 app.post('/upload', async (req, res) => {
     try {
-        // if (!req.files || !req.files.image) {
-        //     return res.status(400).json({ message: 'No file uploaded' });
-        // }
 
         const { name, description } = req.body;
         // const image = req.files.image;
@@ -98,30 +94,7 @@ app.post('/upload', async (req, res) => {
             item: newItem,
         });
 
-        // // Generate a unique file path using a timestamp
-        // const filePath = `uploads/${Date.now()}_${image.name}`;
 
-        // // Move the uploaded image to the specified path
-        // image.mv(filePath, async (err) => {
-        //     if (err) {
-        //         return res.status(500).json({ message: 'Error uploading file' });
-        //     }
-
-        //     // Create a new item with the image path and other details
-        //     const newItem = new Item({
-        //         name,
-        //         description,
-        //         imagePath: filePath,
-        //     });
-
-        //     // Save the item to the database
-        //     await newItem.save();
-
-        //     res.status(201).json({
-        //         message: 'Image uploaded and item created successfully',
-        //         item: newItem,
-        //     });
-        // });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
