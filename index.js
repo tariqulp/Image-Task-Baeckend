@@ -29,6 +29,33 @@ app.get('/items', async (req, res) => {
         res.status(500).send(err);
     }
 });
+// Delete Multiple Images
+app.post('/deleteImages', async (req, res) => {
+    try {
+        const { selectedImages } = req.body;
+        const SelectImage = selectedImages.map(i => i.url.slice(9));
+
+        let images = fs.readdirSync('./uploads'); // List all files in the 'uploads' folder
+        // console.log("🚀 ~ file: index.js:38 ~ app.post ~ images:", images,"length:",images.length)
+
+        // Filter out selected images
+        images = images.filter(image => !SelectImage.includes(image));
+
+        console.log("🚀 ~ file: index.js:41 ~ app.post ~ images:", images, "length:", images.length)
+
+        for (const image of SelectImage) {
+            const imagePath = `./uploads/${image}`;
+            // Check if the file exists before attempting deletion
+            if (fs.existsSync(imagePath)) {
+                fs.unlinkSync(imagePath);
+            }
+        }
+
+        res.json({ message: 'Images deleted successfully' });
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
 
 // POST route to create a new item
 app.post('/items', async (req, res) => {
@@ -118,7 +145,9 @@ app.get('/images', (req, res) => {
     });
     //res.json("imagePaths");
 });
-
+app.get('/', (req, res) => {
+    res("server is running")
+})
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
 });
