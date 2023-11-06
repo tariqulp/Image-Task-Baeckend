@@ -109,10 +109,10 @@ app.post('/upload', cors({
         const { name, description } = req.body;
         const file = req.files?.file;
         let filePath = "";
-        // if (file) {
-        //     filePath = `uploads/${file.name}`;
-        //     file.mv(filePath);
-        // }
+        if (file) {
+            filePath = `uploads/${file.name}`;
+            file.mv(filePath);
+        }
         const newItem = new Item({
             name,
             description,
