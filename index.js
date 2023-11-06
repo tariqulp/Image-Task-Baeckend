@@ -110,7 +110,7 @@ app.post('/upload', cors({
         const file = req.files?.file;
         let filePath = "";
         if (file) {
-            filePath = `./build/uploads/${file.name}`;
+            filePath = `uploads/${file.name}`;
             file.mv(filePath);
         }
         const newItem = new Item({
@@ -127,7 +127,7 @@ app.post('/upload', cors({
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ message: error });
     }
 });
 
