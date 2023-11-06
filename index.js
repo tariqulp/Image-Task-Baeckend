@@ -6,7 +6,12 @@ const fs = require('fs');
 const app = express();
 const port = 5000;
 
-app.use(cors());
+const corsOptions = {
+    origin: 'https://6548abd310f7c97ecf1f0c2e--beamish-medovik-34d245.netlify.app/',
+    optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 app.use(fileUpload());
 app.use(express.json());
 
