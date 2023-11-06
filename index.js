@@ -67,51 +67,18 @@ app.post('/items', async (req, res) => {
     }
 });
 
-// app.post('/upload', async (req, res) => {
-//     try {
-
-//         const { name, description } = req.body;
-//         // const image = req.files.image;
-//         const file = req.files?.file;
-//         let filePath = "";
-//         // Save the file to the file system
-//         if (file) {
-//             filePath = `uploads/${file.name}`;
-//             file.mv(filePath);
-
-//         }
-//         const newItem = new Item({
-//             name,
-//             description,
-//             imagePath: filePath,
-//         });
-
-//         // Save the item to the database
-//         await newItem.save();
-
-//         res.status(201).json({
-//             message: 'Image uploaded and item created successfully',
-//             item: newItem,
-//         });
-
-
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ message: 'Server error' });
-//     }
-// });
-
-app.post('/upload', cors({
-    origin: 'http://localhost:5173/',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-}), async (req, res) => {
+app.post('/upload', async (req, res) => {
     try {
+
         const { name, description } = req.body;
+        // const image = req.files.image;
         const file = req.files?.file;
         let filePath = "";
+        // Save the file to the file system
         if (file) {
-            filePath = `./uploads/${file.name}`;
+            filePath = `uploads/${file.name}`;
             file.mv(filePath);
+
         }
         const newItem = new Item({
             name,
@@ -119,15 +86,18 @@ app.post('/upload', cors({
             imagePath: filePath,
         });
 
+        // Save the item to the database
         await newItem.save();
 
         res.status(201).json({
             message: 'Image uploaded and item created successfully',
             item: newItem,
         });
+
+
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: error });
+        res.status(500).json({ message: 'Server error' });
     }
 });
 
